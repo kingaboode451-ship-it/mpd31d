@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>منصة إدخال وصل جباية الماء</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css" />
+  <!-- تمت إزالة السكربت المضمن؛ منطق الطباعة أصبح خارجياً في assets/app.js -->
+</head>
+<body>
+  <header class="app-header">
+    <div class="branding">
+      <img src="logo.png" alt="Logo" class="brand-logo" />
+      <div class="titles">
+        <h1>إدخال بيانات الوصل</h1>
+        <p class="subtitle">واجهة احترافية وسلسة لإدارة البيانات</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button id="themeToggle" type="button" class="icon-btn" aria-label="تبديل الوضع">🌓</button>
+      <button id="resetAll" type="button" class="icon-btn" aria-label="تفريغ الحقول">↺</button>
+      <select id="printerWidth" class="printer-width-select" aria-label="عرض الطابعة">
+        <option value="58" selected>58mm</option>
+        <option value="72">72mm</option>
+        <option value="80">80mm</option>
+      </select>
+    </div>
+  </header>
+
+  <main class="container" id="mainContainer">
+    <!-- Stepper -->
+    <ol class="stepper" id="stepper" aria-label="مراحل الإدخال">
+      <li class="step active" data-step="0">مشترك</li>
+      <li class="step" data-step="1">العنوان</li>
+      <li class="step" data-step="2">القراءات</li>
+      <li class="step" data-step="3">أقساط</li>
+      <li class="step" data-step="4">المبالغ</li>
+      <li class="step" data-step="5">المراجعة</li>
+    </ol>
+
+    <!-- Form Wizard -->
+    <form id="receiptForm" novalidate>
+      <!-- Step 0: معلومات المشترك -->
+      <section class="form-step" data-step="0" aria-labelledby="sectionCustomer">
+        <h2 id="sectionCustomer">معلومات المشترك</h2>
+        <div class="grid">
+          <label>اسم المشترك
+            <input name="customerName" value="فاضل علي فرحان" required autocomplete="name" />
+          </label>
+          <label>رقم العقار
+            <input name="propertyNumber" value="0" inputmode="numeric" />
+          </label>
+          <label>رقم الوصل
+            <input name="receiptNumber" value="193718313" inputmode="numeric" required />
+          </label>
+          <label>اسم الجابي
+            <input name="collectorName" value="إبراهيم صالح" required />
+          </label>
+        </div>
+      </section>
+
+            
+      <section class="form-step" data-step="1" aria-labelledby="sectionAddress" hidden>
+        <h2 id="sectionAddress">عنوان المشترك</h2>
+        <div class="grid">
+          <label>عنوان المشترك
+            <input name="address" value="حي الصعود" required />
+          </label>
+          <label>رقم الاشتراك
+            <input name="subscriptionNumber" value="101125011011302622" required />
+          </label>
+          <label>رقم العداد
+            <input name="meterNumber" value="230161419" required />
+          </label>
+          <label>تاريخ ربط العداد
+            <input name="installDate" value="08-05-2024" required />
+          </label>
+          <label>تاريخ إصدار الفاتورة
+            <input name="billDate" value="6-11-2025" required />
+          </label>
+        </div>
+      </section>
+
+      <!-- Step 2: القراءات -->
+      <section class="form-step" data-step="2" aria-labelledby="sectionReadings" hidden>
+        <h2 id="sectionReadings">القراءات</h2>
+        <div class="grid">
+          <label>قيمة القراءة الحالية
+            <input name="currentReading" value="461" inputmode="numeric" required />
+          </label>
+          <label>تاريخ القراءة الحالية
+            <input name="currentReadingDate" value="04/10/2025" required />
+          </label>
+          <label>القراءة السابقة
+            <input name="previousReading" value="364" inputmode="numeric" required />
+          </label>
+          <label>تاريخ القراءة السابقة
+            <input name="previousReadingDate" value="12/07/2025" required />
+          </label>
+          <label>الأيام بين القراءتين
+            <input name="daysBetween" value="84" inputmode="numeric" />
+          </label>
+        </div>
+      </section>
+
+      <!-- Step 3: أقساط العداد -->
+      <section class="form-step" data-step="3" aria-labelledby="sectionInstallments" hidden>
+        <h2 id="sectionInstallments">أقساط العداد</h2>
+        <div class="grid">
+          <label>قيمة قسط العداد
+            <input name="installCost" value="60000" inputmode="numeric" />
+          </label>
+          <label>أقساط العداد المدفوع
+            <input name="paidInstallments" value="60000" inputmode="numeric" />
+          </label>
+          <label>قسط العداد المتبقي
+            <input name="remainingInstallments" value="0" inputmode="numeric" />
+          </label>
+        </div>
+      </section>
+
+      <!-- Step 4: تفاصيل المبلغ -->
+      <section class="form-step" data-step="4" aria-labelledby="sectionAmounts" hidden>
+        <h2 id="sectionAmounts">تفاصيل المبالغ</h2>
+        <div class="grid amounts">
+          <label>أجور ماء
+            <input name="waterFee" value="9655" class="calc" inputmode="numeric" />
+          </label>
+          <label>أجور مجاري
+            <input name="sewerFee" value="9655" class="calc" inputmode="numeric" />
+          </label>
+          <label>أجور نفايات
+            <input name="garbageFee" value="6000" class="calc" inputmode="numeric" />
+          </label>
+          <label>أجور ماء خام
+            <input name="rawWaterFee" value="0" class="calc" inputmode="numeric" />
+          </label>
+          <label>قسط العداد
+            <input name="meterInstallFee" value="0" class="calc" inputmode="numeric" />
+          </label>
+          <label>العمولة
+            <input name="commission" value="2000" class="calc" inputmode="numeric" />
+          </label>
+          <label>المبلغ الكلي للفاتورة
+            <input name="totalAmount" value="27310" readonly data-auto="total" />
+          </label>
+          <label>ديون بعد تنصيب العداد
+            <input name="postInstallDebt" value="0" inputmode="numeric" />
+          </label>
+          <label>ديون قبل تنصيب العداد (مسقفات)
+            <input name="preInstallDebt" value="0" inputmode="numeric" />
+          </label>
+        </div>
+      </section>
+
+      <!-- Step 5: مراجعة و إنهاء -->
+      <section class="form-step" data-step="5" aria-labelledby="sectionReview" hidden>
+        <h2 id="sectionReview">مراجعة البيانات</h2>
+        <p class="review-hint">تحقق من صحة البيانات ثم اضغط إنهاء لعرض الوصل.</p>
+        <div id="reviewData" class="review-grid" aria-live="polite"></div>
+      </section>
+
+      <!-- Wizard Navigation -->
+      <div class="wizard-nav">
+        <button type="button" id="prevBtn" class="btn subtle" disabled>السابق</button>
+        <button type="button" id="nextBtn" class="btn primary">التالي</button>
+        <button type="submit" id="finishBtn" class="btn success" hidden>إنهاء</button>
+      </div>
+    </form>
+
+    <!-- Original Simple Receipt Layout -->
+    <div id="receiptSection" class="receipt-section" hidden>
+      <img src="logo.png" class="receipt-logo screen-logo" alt="logo">
+      <img src="assets/img/logo-bw.png" class="receipt-logo print-logo" alt="logo بالأبيض والأسود" />
+      <div>وصل جباية ماء</div>
+      <table class="receipt-table">
+        <tr><td>اسم المشترك:- <span id="r_customerName"></span></td></tr>
+        <tr><td>رقم العقار:- <span id="r_propertyNumber"></span></td></tr>
+        <tr><td>رقم الوصل:- <span id="r_receiptNumber"></span></td></tr>
+        <tr><td>اسم الجابي:- <span id="r_collectorName"></span></td></tr>
+        <tr class="spacer-row extra-space"><td></td></tr>
+      </table>
+      <div class="line full-line"></div>
+      <table class="receipt-table">
+        <tr><td>عنوان المشترك:- <span id="r_address"></span></td></tr>
+        <tr><td>رقم الاشتراك:- <span id="r_subscriptionNumber"></span></td></tr>
+        <tr><td>رقم العداد:- <span id="r_meterNumber"></span></td></tr>
+        <tr><td>تاريخ ربط العداد:- <span id="r_installDate"></span></td></tr>
+        <tr><td>تاريخ إصدار الفاتورة:- <span id="r_billDate"></span></td></tr>
+        <tr class="spacer-row extra-space"><td></td></tr>
+      </table>
+      <div class="line"></div>
+      <table class="receipt-table">
+        <tr><td>قيمة القراءة الحالية:- <span id="r_currentReading"></span></td></tr>
+        <tr><td>تاريخها:- <span id="r_currentReadingDate"></span></td></tr>
+        <tr><td>القراءة السابقة:- <span id="r_previousReading"></span></td></tr>
+        <tr><td>تاريخها:- <span id="r_previousReadingDate"></span></td></tr>
+        <tr><td>الأيام بين القراءتين:- <span id="r_daysBetween"></span></td></tr>
+        <tr class="spacer-row extra-space"><td></td></tr>
+      </table>
+      <div class="line"></div>
+      <table class="receipt-table">
+        <tr class="section-heading"><td>تفاصيل أقساط العداد</td></tr>
+        <tr class="spacer-row"><td></td></tr>
+        <tr><td>قيمة قسط العداد:- <span id="r_installCost"></span></td></tr>
+        <tr><td>أقساط العداد المدفوع:- <span id="r_paidInstallments"></span></td></tr>
+        <tr><td>قسط العداد المتبقي:- <span id="r_remainingInstallments"></span></td></tr>
+      </table>
+      <div class="line"></div>
+      <table class="receipt-table">
+        <tr class="section-heading"><td>تفاصيل المبلغ</td></tr>
+        <tr class="spacer-row"><td></td></tr>
+        <tr class="spacer-row"><td></td></tr>
+        <tr><td>أجور ماء:- <span id="r_waterFee"></span></td></tr>
+        <tr><td>أجور مجاري:- <span id="r_sewerFee"></span></td></tr>
+        <tr><td>أجور نفايات:- <span id="r_garbageFee"></span></td></tr>
+        <tr><td>أجور ماء خام:- <span id="r_rawWaterFee"></span></td></tr>
+        <tr><td>قسط العداد:- <span id="r_meterInstallFee"></span></td></tr>
+        <tr><td>العمولة:- <span id="r_commission"></span></td></tr>
+        <tr class="total-row"><td>المبلغ الكلي للفاتورة:- <span id="r_totalAmount"></span></td></tr>
+        <tr><td>ديون بعد تنصيب العداد:- <span id="r_postInstallDebt"></span></td></tr>
+      </table>
+      <div class="line full-line"></div>
+      <table class="receipt-table"><tr><td>ديون قبل تنصيب العداد (مسقفات):- <span id="r_preInstallDebt"></span></td></tr></table>
+      <table class="receipt-table payment-only"><tr><td><span id="r_paymentMethod">Online</span></td></tr></table>
+      <div class="qr"><img src="qr.png" alt="QR"></div>
+      <div class="powered-by">Powered by NTG Clarity©2024</div>
+      <button type="button" class="btn primary no-print" id="printBtn">طباعة</button>
+      <button type="button" class="btn secondary no-print" id="editBtn">تعديل البيانات</button>
+    </div>
+  </main>
+
+  <footer class="app-footer no-print">
+    <small>تم الإنشاء محلياً • كافة البيانات لأغراض العرض</small>
+  </footer>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>
