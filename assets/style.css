@@ -1,0 +1,320 @@
+.qr { text-align:center; }
+.qr img { display:inline-block; }
+.payment-only td { text-align:center; }
+/* ====== Theme Variables ====== */
+:root {
+  --color-bg: #f5f7fa;
+  --color-surface: #ffffff;
+  --color-border: #d9e1e8;
+  --color-primary: #0d6efd;
+  --color-primary-hover: #0952b9;
+  --color-accent: #ffb302;
+  --color-danger: #d9534f;
+  --color-success: #198754;
+  --color-text: #1d2939;
+  --color-muted: #667085;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --transition: .25s ease;
+  --ticket-width: 80mm;
+  font-size: 15px;
+}
+
+html[data-theme='dark'] {
+  --color-bg: #111827;
+  --color-surface: #1f2937;
+  --color-border: #2b3645;
+  --color-primary: #3b82f6;
+  --color-primary-hover: #2563eb;
+  --color-accent: #fbbf24;
+  --color-danger: #f87171;
+  --color-success: #22c55e;
+  --color-text: #f1f5f9;
+  --color-muted: #94a3b8;
+  --shadow-md: 0 4px 14px rgba(0,0,0,0.5);
+}
+
+/* ====== Base ====== */
+body {
+  font-family: 'Cairo', Tahoma, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+h1, h2, h3 { margin: 0 0 .75rem; font-weight: 600; }
+
+p { margin: 0 0 1rem; }
+
+img { display: block; max-width: 100%; }
+
+.container { width: 100%; max-width: 1150px; margin: 0 auto; padding: 1rem 1.25rem 4rem; }
+
+/* ====== Header ====== */
+.app-header {
+  position: sticky;
+  top: 0;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  padding: .75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  z-index: 20;
+}
+.branding { display: flex; align-items: center; gap: .75rem; }
+.brand-logo { width: 54px; height: 54px; object-fit: contain; border-radius: var(--radius-sm); box-shadow: var(--shadow-sm); }
+.titles h1 { font-size: 1.25rem; }
+.subtitle { font-size: .8rem; color: var(--color-muted); }
+.header-actions { display: flex; gap: .5rem; }
+.icon-btn {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  padding: .55rem .8rem;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+}
+.icon-btn:hover { background: var(--color-primary); color: #fff; }
+.printer-width-select { border:1px solid var(--color-border); background: var(--color-surface); padding:.45rem .4rem; font-size:.65rem; border-radius:4px; }
+
+/* ====== Stepper ====== */
+.stepper {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+}
+.step {
+  flex: 1 1 120px;
+  text-align: center;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  padding: .6rem .4rem;
+  font-size: .75rem;
+  position: relative;
+  border-radius: var(--radius-sm);
+  user-select: none;
+  transition: var(--transition);
+}
+.step.active { border-color: var(--color-primary); background: var(--color-primary); color: #fff; font-weight: 600; }
+.step.completed { background: var(--color-success); color: #fff; border-color: var(--color-success); }
+
+/* ====== Form Wizard ====== */
+form { background: var(--color-surface); border: 1px solid var(--color-border); padding: 1.25rem 1.25rem 1.5rem; border-radius: var(--radius-md); box-shadow: var(--shadow-md); }
+.form-step:not([hidden]) { animation: fadeIn .4s; }
+@keyframes fadeIn { from { opacity: 0; translate: 0 4px; } to { opacity: 1; translate: 0 0; } }
+
+.grid { display: grid; gap: .85rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.grid label { display: flex; flex-direction: column; gap: .35rem; font-size: .78rem; font-weight: 600; }
+.grid input {
+  padding: .55rem .6rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg);
+  font-size: .85rem;
+  font-family: inherit;
+  transition: var(--transition);
+}
+.grid input:focus { outline: 2px solid var(--color-primary); outline-offset: 1px; background: #fff; }
+.grid input[readonly] { background: #eef3fa; cursor: not-allowed; }
+
+input.error { border-color: var(--color-danger); background: #ffe9e9; }
+input.success { border-color: var(--color-success); }
+
+.review-hint { font-size: .75rem; color: var(--color-muted); }
+.review-grid { display: grid; gap: .5rem; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); }
+.review-item { background: var(--color-bg); border: 1px solid var(--color-border); padding: .6rem .7rem; border-radius: var(--radius-sm); font-size: .7rem; display: flex; flex-direction: column; gap: .25rem; }
+.review-item span { color: var(--color-muted); }
+.review-item strong { font-size: .8rem; }
+
+/* ====== Buttons ====== */
+.btn { border: none; cursor: pointer; font-family: inherit; font-weight: 600; letter-spacing: .5px; }
+.btn.primary, .btn.success, .btn.secondary, .btn.subtle { padding: .75rem 1.15rem; font-size: .8rem; border-radius: var(--radius-sm); transition: var(--transition); }
+.btn.primary { background: var(--color-primary); color:#fff; }
+.btn.primary:hover { background: var(--color-primary-hover); }
+.btn.secondary { background: var(--color-accent); color:#000; }
+.btn.secondary:hover { filter: brightness(.92); }
+.btn.success { background: var(--color-success); color:#fff; }
+.btn.success:hover { filter: brightness(1.08); }
+.btn.subtle { background: var(--color-surface); border:1px solid var(--color-border); }
+.btn.subtle:disabled { opacity:.5; cursor:not-allowed; }
+.btn.subtle:hover:not(:disabled) { background: var(--color-primary); color:#fff; }
+.wizard-nav { margin-top: 1.25rem; display:flex; gap:.75rem; justify-content: flex-end; flex-wrap: wrap; }
+
+/* ====== Receipt ====== */
+.receipt { background: var(--color-surface); border: 1px solid var(--color-border); padding: 1rem 1rem 1.5rem; border-radius: var(--radius-md); box-shadow: var(--shadow-md); }
+.receipt-meta { display:flex; align-items:center; gap:.75rem; justify-content: space-between; margin-bottom: .5rem; }
+.receipt-logo { width:70px; height:auto; }
+.stamp { background: var(--color-primary); color:#fff; padding:.4rem .65rem; font-size:.6rem; border-radius: var(--radius-sm); letter-spacing: .5px; box-shadow: var(--shadow-sm); }
+.receipt-block { margin: .9rem 0 1.2rem; }
+.receipt-block h3 { font-size:.85rem; margin:0 0 .4rem; position: relative; }
+.receipt-block h3::after { content:""; display:block; width:40px; height:3px; background: var(--color-primary); margin-top:.35rem; border-radius:2px; }
+.kv { list-style:none; padding:0; margin:0; display:grid; gap:.4rem; font-size:.7rem; }
+.kv li { display:flex; justify-content:space-between; background: var(--color-bg); border:1px solid var(--color-border); padding:.4rem .55rem; border-radius: var(--radius-sm); }
+.kv li span { color: var(--color-muted); }
+.kv li strong { font-weight:700; }
+.qr-box { display:flex; justify-content:center; margin-top: .75rem; }
+.qr-box img { width:130px; }
+.receipt-actions { margin-top: 1rem; display: flex; gap:.5rem; justify-content: flex-end; }
+
+/* ===== Original simple receipt styles ===== */
+.receipt-section { display:block; width: calc(var(--ticket-width) - 2mm); margin:0 auto; padding:0; text-align:center; }
+.receipt-logo { width:90px; height:auto; margin:10px auto 5px; display:block; }
+.screen-logo { display:block; }
+.print-logo { display:none; }
+.line { height:1px; background:#000; margin:5px auto; width:85%; }
+.line.full-line { width:100%; }
+.receipt-table { width:100%; font-size:12px; text-align:right; border-collapse:collapse; }
+.receipt-table td { padding:0; vertical-align:top; line-height:1.18; }
+.receipt-table { table-layout: auto; }
+.receipt-table.payment-only td { text-align:center !important; }
+.receipt-table td span { display:inline-block; margin-right:2px; }
+.receipt-table .total-row td { font-size:13px; }
+.receipt-table .section-heading td { font-weight:normal; }
+.receipt-table .spacer-row td { height:6px; line-height:6px; padding:0; }
+.receipt-table .spacer-row.extra-space td { height:10px; line-height:10px; }
+.section-title { font-weight:bold; margin:4px 0; text-align:right; font-size:12px; }
+.qr { text-align:center; margin-top:8px; }
+.qr img { width:130px; }
+
+@media print {
+  /* ===== Thermal receipt (dynamic 58mm / 80mm) ===== */
+  @page { size: auto; margin:0; }
+  body { margin:0; padding:0; font-size:11px; background:#fff; line-height:1.20; font-family: Tahoma, sans-serif; font-weight:400; }
+  body.print-58 { width:58mm; }
+  body.print-72 { width:72mm; }
+  body.print-80 { width:80mm; }
+  body.print-80 { font-size:13px; line-height:1.25; }
+  /* Hide all UI except receipt */
+  .no-print, .app-header, .stepper, form, .wizard-nav, .app-footer { display:none !important; }
+  body.print-58 .receipt-section { display:block !important; width:58mm; margin:0; padding:0 2mm 3mm; }
+  body.print-72 .receipt-section { display:block !important; width:70mm; margin:0 auto; padding:1mm 0 4mm; }
+  body.print-80 .receipt-section { display:block !important; width:79mm; margin:0 auto; padding:2mm 0 5mm; }
+  /* تضبيط الشعار للطباعة: تقليل الحجم والمسافات */
+  .screen-logo { display:none !important; }
+  .print-logo { display:block !important; width:26mm; max-width:26mm; margin:1mm auto 1mm; filter: grayscale(100%) contrast(185%) brightness(95%); }
+  body.print-80 .print-logo { width:34mm; margin:2mm auto 3mm; }
+  .receipt-table { font-size:11px; width:100%; table-layout: fixed; }
+  .receipt-table td { padding:0; line-height:1.05; }
+  /* ضبط نسب الأعمدة لتقريب القيم من النص */
+  /* لم تعد هناك أعمدة منفصلة، كل سطر خلية واحدة */
+  body.print-58 .receipt-table td, body.print-80 .receipt-table td { width:auto !important; text-align:right; }
+  body.print-72 .receipt-table { font-size:12px; }
+  body.print-80 .receipt-table { font-size:13px; }
+  body.print-80 .receipt-table td { line-height:1.15; }
+  body.print-72 .receipt-table .section-heading td { font-size:12.2px; }
+  body.print-80 .receipt-table .section-heading td { font-size:13.2px; }
+  /* تكبير وتغليظ المبلغ الكلي */
+  body.print-72 .receipt-table .total-row td { font-size:13px; font-weight:700; }
+  body.print-80 .receipt-table .total-row td { font-size:14px; font-weight:700; }
+  body.print-80 .receipt-table .spacer-row td { height:4px; line-height:4px; }
+  .receipt-table .total-row td { font-size:12px; font-weight:700; }
+  .receipt-table .section-heading td { font-weight:normal; }
+  .receipt-table .spacer-row td { height:6px; line-height:6px; }
+  .receipt-table .spacer-row.extra-space td { height:9px; line-height:9px; }
+  .receipt-table.payment-only td { text-align:center !important; }
+  /* زيادة الفراغ تحت عنوان قسم تفاصيل المبلغ قبل أول سطر أجور ماء */
+  .receipt-table .section-heading + .spacer-row td,
+  .receipt-table .section-heading + .spacer-row + .spacer-row td { height:12px; line-height:12px; }
+  .section-title { font-size:11px; margin:3px 0; }
+  /* الفواصل: استخدام حد + خلفية + طبقة فوقية لضمان الظهور */
+  .line, .line.full-line { position:relative; display:block; width:100%; margin:6px auto; height:1px; background:#000; border-top:1px solid #000; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .line::after { content:""; position:absolute; inset:0; background:#000; }
+  body.alt-lines .line { height:2px; }
+  body.alt-lines .line::after { height:2px; }
+  body.print-58 .line, body.print-80 .line { width:100%; }
+  .qr img { width:22mm; max-width:22mm; margin:2mm auto 0; }
+  /* إزالة طبقة Online فوق QR؛ أصبح في صف مستقل */
+  body.print-80 .qr img { width:26mm; }
+  /* Remove borders/shadows for clean ticket */
+  .receipt, .receipt-section, .receipt-table { box-shadow:none; border:none; }
+  /* Force black text */
+  * { color:#000 !important; background:transparent !important; }
+  /* إعادة فرض الفاصل بعد التفريغ العام */
+  .line { background:#000 !important; border-top:1px solid #000 !important; }
+  .line::after { background:#000 !important; }
+  /* تأكيد ظهور الفاصل الأول تحت جدول المشترك حتى لو تجاهلت الطابعة الخلفيات */
+  .receipt-section table:first-of-type + .line { display:block !important; height:1px !important; background:#000 !important; border-top:1px solid #000 !important; }
+  /* وضع إجباري نصي للفواصل في حال استمرار اختفاء الخلفية على طابعة معينة */
+  body.force-text-lines .line, body.force-text-lines .line.full-line {
+    height:auto !important;
+    border:none !important;
+    background:transparent !important;
+  }
+  body.force-text-lines .line::after {
+    content:"ــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــ";
+    position:static;
+    display:block;
+    line-height:1;
+    font-size:11px;
+    font-family: Tahoma, monospace;
+    letter-spacing:0;
+    background:transparent !important;
+  }
+  body.stronger-line .line { height:3px !important; }
+  body.gradient-lines .line { background: repeating-linear-gradient(to right,#000 0 3px,transparent 3px 4px) !important; height:1px !important; }
+  button { display:none !important; }
+  .powered-by { font-size:9px; text-align:center; margin:5mm 0 2mm; }
+  /* ضمان ظهور الفاصل بعد جدول المشترك (قبل عنوان المشترك) عبر حد أعلى للجدول الثاني + بديل نصي */
+  .receipt-section table:nth-of-type(2) { border-top:1px solid #000 !important; padding-top:2px; margin-top:6px; }
+  body.force-text-lines .receipt-section table:nth-of-type(2)::before {
+    content:"ــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــــ";
+    display:block; line-height:1; margin:4px 0; font-size:11px; font-family:Tahoma, monospace;
+  }
+  /* مسافة إضافية أسفل أول فاصل */
+  .receipt-section .line.full-line:first-of-type { margin-bottom:14px !important; }
+  /* دفع صف Online للوسط قليلاً */
+  /* تم نقل كلمة Online إلى طبقة فوق رمز QR */
+}
+/* Receipt-only mode (after finishing input) */
+body.receipt-only {
+  background:#fff;
+}
+body.receipt-only .container { max-width: var(--ticket-width); padding: 0.5rem 0.75rem 1.5rem; }
+body.receipt-only .receipt-section { margin-top:0; }
+
+/* ====== Footer ====== */
+.app-footer { margin-top:auto; text-align:center; padding:1rem .5rem; font-size:.65rem; color: var(--color-muted); }
+
+/* ====== Utilities ====== */
+.no-print { display: block; }
+.fade-out { animation: fadeOut .3s forwards; }
+@keyframes fadeOut { to { opacity:0; } }
+
+/* remove advanced thermal overrides (reverted to original look) */
+
+/* ====== Responsive ====== */
+@media (max-width: 780px) {
+  .wizard-nav { justify-content: stretch; }
+  .branding h1 { font-size: 1.05rem; }
+  .brand-logo { width:46px; height:46px; }
+}
+@media (max-width: 540px) {
+  .step { font-size:.6rem; padding:.45rem .3rem; }
+  .grid { grid-template-columns: repeat(auto-fit, minmax(170px,1fr)); }
+  form, .receipt { padding: .95rem .85rem 1.1rem; }
+}
+@media (max-width: 470px) {
+  .grid { grid-template-columns: 1fr; }
+  .wizard-nav { flex-direction: column; }
+  .wizard-nav .btn { width:100%; }
+  .stepper { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .stepper::-webkit-scrollbar { height:6px; }
+  .stepper::-webkit-scrollbar-thumb { background: var(--color-border); border-radius:3px; }
+  .step { flex: 0 0 120px; }
+  .kv li { flex-direction: column; align-items: flex-start; gap:.25rem; }
+  .kv li span { display:block; }
+}
